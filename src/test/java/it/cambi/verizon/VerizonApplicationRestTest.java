@@ -25,6 +25,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -39,10 +40,10 @@ import it.cambi.verizon.domain.Reminder;
  * @author luca
  *
  */
-@SpringBootTest(classes = { VerizonApplication.class,
-        ApplicationConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = { VerizonApplication.class, ApplicationConfigurationTest.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
+@ActiveProfiles({ "test" })
 public class VerizonApplicationRestTest
 {
     private @Autowired MongoTemplate mongoTemplate;

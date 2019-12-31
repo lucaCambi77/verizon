@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import it.cambi.verizon.domain.Address;
@@ -31,10 +32,10 @@ import it.cambi.verizon.domain.Reminder;
 import it.cambi.verizon.service.AppointmentProxyService;
 import it.cambi.verizon.service.AttendeeService;
 
-@SpringBootTest(classes = { VerizonApplication.class,
-        ApplicationConfiguration.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = { VerizonApplication.class, ApplicationConfigurationTest.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
+@ActiveProfiles({ "test" })
 public class VerizonApplicationServiceTest
 {
 
@@ -54,8 +55,8 @@ public class VerizonApplicationServiceTest
     @Order(1)
     void contextLoads()
     {
-        assertNotNull(mongoTemplate);
 
+        assertNotNull(mongoTemplate);
         mongoTemplate.dropCollection(Meeting.class);
         mongoTemplate.dropCollection(Reminder.class);
     }

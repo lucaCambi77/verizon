@@ -6,6 +6,7 @@ package it.cambi.verizon;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
@@ -20,17 +21,18 @@ import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 import it.cambi.verizon.mongo.repository.AttendeeRepository;
+import it.cambi.verizon.service.MeetingService;
 
 /**
  * @author luca
  *
  */
 @Configuration
+@Profile({ "production" })
 @EnableMongoRepositories(basePackageClasses = { AttendeeRepository.class })
-@ComponentScan(basePackageClasses = {})
+@ComponentScan(basePackageClasses = { MeetingService.class })
 public class ApplicationConfiguration
 {
-
     @Bean
     public MongoTemplate mongoTemplate() throws Exception
     {
