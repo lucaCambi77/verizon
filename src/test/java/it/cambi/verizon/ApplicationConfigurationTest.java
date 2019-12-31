@@ -14,6 +14,7 @@ import org.testcontainers.containers.GenericContainer;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 
+import de.flapdoodle.embed.mongo.distribution.Version;
 import it.cambi.verizon.mongo.repository.AttendeeRepository;
 
 /**
@@ -31,7 +32,7 @@ public class ApplicationConfigurationTest
      * MongoDB
      */
     @ClassRule
-    public static GenericContainer<?> mongo = new GenericContainer<>("mongo:4.0.2")
+    public static GenericContainer<?> mongo = new GenericContainer<>("mongo:" + Version.Main.PRODUCTION.asInDownloadPath())
             .withExposedPorts(MONGO_PORT);
 
     @Bean
@@ -39,7 +40,7 @@ public class ApplicationConfigurationTest
     {
 
         mongo.start();
-        MongoClient mongoClient = MongoClients.create("mongodb://" + mongo.getContainerIpAddress() + ":" + mongo.getMappedPort(MONGO_PORT) + "");
+        MongoClient mongoClient = MongoClients.create("mongodb://" + mongo.getContainerIpAddress() + ":" + mongo.getMappedPort(MONGO_PORT));
 
         return new MongoTemplate(mongoClient, "appointments");
     }
