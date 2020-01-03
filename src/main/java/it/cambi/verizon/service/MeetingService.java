@@ -46,8 +46,8 @@ public class MeetingService implements AppointmentService
     public List<Appointment> findOfAttendeeByDay(String day, String attendee)
     {
 
-        return meetingRepository.findAllByDay(day).stream().filter(m -> m.isConfirmed() && m.getAttendees().contains(attendee))
-                .collect(Collectors.toList());
+        return new ArrayList<Appointment>(meetingRepository.findOfAttendeeByDay(new String[] { attendee }, day, true));
+
     }
 
     @Override
