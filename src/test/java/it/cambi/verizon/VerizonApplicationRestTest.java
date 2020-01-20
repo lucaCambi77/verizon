@@ -100,7 +100,7 @@ public class VerizonApplicationRestTest
                 .postForEntity("http://localhost:" + this.port + "/attendee/", request, Attendee.class);
 
         Attendee posted = entity.getBody();
-        attendeeId = posted.get_id();
+        attendeeId = posted.getId();
 
         assertNotNull(attendeeId);
 
@@ -128,7 +128,7 @@ public class VerizonApplicationRestTest
         ResponseEntity<Meeting> entity = restTemplate
                 .postForEntity("http://localhost:" + this.port + "/appointment/", request, Meeting.class);
 
-        appointmentId = entity.getBody().get_id();
+        appointmentId = entity.getBody().getId();
 
         assertNotNull(appointmentId);
 

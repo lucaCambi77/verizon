@@ -17,7 +17,7 @@ import it.cambi.verizon.domain.Reminder;
 public interface ReminderRepository extends MongoRepository<Reminder, String>
 {
 
-    Reminder findOneBy_id(ObjectId id);
+    Reminder findOneById(ObjectId id);
 
     List<Reminder> findAllByDay(String day);
 }

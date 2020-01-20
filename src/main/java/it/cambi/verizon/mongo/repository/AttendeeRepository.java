@@ -14,6 +14,6 @@ import it.cambi.verizon.domain.Attendee;
  */
 public interface AttendeeRepository extends MongoRepository<Attendee, String>
 {
-    Attendee findOneBy_id(ObjectId id);
+    Attendee findOneById(ObjectId id);
 
 }

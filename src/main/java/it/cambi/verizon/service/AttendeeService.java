@@ -33,7 +33,7 @@ public class AttendeeService
 
     public Attendee findByObjectId(String _id)
     {
-        return attendeeRepository.findOneBy_id(new ObjectId(_id));
+        return attendeeRepository.findOneById(new ObjectId(_id));
     }
 
     public Attendee save(Attendee attendee)

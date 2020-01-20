@@ -5,7 +5,6 @@ package it.cambi.verizon.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -39,7 +38,7 @@ public class MeetingService implements AppointmentService
     public Appointment findByObjectId(String _id)
     {
 
-        return meetingRepository.findOneBy_id(new ObjectId(_id));
+        return meetingRepository.findOneById(new ObjectId(_id));
     }
 
     @Override
@@ -54,7 +53,7 @@ public class MeetingService implements AppointmentService
     public List<Appointment> findByDay(String date)
     {
 
-        return meetingRepository.findAllByDay(date).stream().filter(m -> m.isConfirmed()).collect(Collectors.toList());
+        return new ArrayList<Appointment>(meetingRepository.findAllByDay(date, true));
 
     }
 
@@ -69,7 +68,7 @@ public class MeetingService implements AppointmentService
     @Override
     public boolean delete(Appointment meeting)
     {
-        log.info("... deleting meeting " + meeting.get_id());
+        log.info("... deleting meeting " + meeting.getId());
 
         meeting.setConfirmed(false);
 

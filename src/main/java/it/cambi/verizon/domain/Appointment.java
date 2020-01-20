@@ -4,6 +4,7 @@
 package it.cambi.verizon.domain;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -19,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 public abstract class Appointment
 {
-    private ObjectId _id;
+    private @MongoId ObjectId id;
     private String name;
     private String day;
     private String time;
@@ -33,15 +34,9 @@ public abstract class Appointment
         this.type = type;
     }
 
-    public Appointment(AppointmentType type, boolean isOneOff)
+    public String getId()
     {
-        this.type = type;
-        this.isOneOff = isOneOff;
-    }
-
-    public String get_id()
-    {
-        return null == _id ? null : _id.toString();
+        return null == id ? null : id.toString();
 
     }
 
@@ -124,7 +119,7 @@ public abstract class Appointment
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((_id == null) ? 0 : _id.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -138,12 +133,12 @@ public abstract class Appointment
         if (getClass() != obj.getClass())
             return false;
         Appointment other = (Appointment) obj;
-        if (_id == null)
+        if (id == null)
         {
-            if (other._id != null)
+            if (other.id != null)
                 return false;
         }
-        else if (!_id.equals(other._id))
+        else if (!id.equals(other.id))
             return false;
         return true;
     }

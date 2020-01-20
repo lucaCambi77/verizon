@@ -70,8 +70,8 @@ public class VerizonApplicationServiceTest
 
         Attendee result = attendeeService.save(attendee);
 
-        assertNotNull(result.get_id());
-        attendeeId = result.get_id();
+        assertNotNull(result.getId());
+        attendeeId = result.getId();
     }
 
     @Test
@@ -93,10 +93,10 @@ public class VerizonApplicationServiceTest
 
         Meeting postedMeeting = (Meeting) appointmentProxyService.saveAppointment(meeting);
 
-        assertNotNull(postedMeeting.get_id());
+        assertNotNull(postedMeeting.getId());
         assertEquals(1, postedMeeting.getAttendees().size());
 
-        meetingId = postedMeeting.get_id();
+        meetingId = postedMeeting.getId();
 
         Reminder reminder = new Reminder.Builder().withName("Reminder1").withDay(dfDay.format(appointmentDate))
                 .withTime(dfTime.format(appointmentDate))
@@ -105,22 +105,15 @@ public class VerizonApplicationServiceTest
 
         Reminder postedReminder = (Reminder) appointmentProxyService.saveAppointment(reminder);
 
-        assertNotNull(postedReminder.get_id());
+        assertNotNull(postedReminder.getId());
 
+        List<Appointment> appointments = appointmentProxyService.findAppointments();
+
+        assertEquals(2, appointments.size());
     }
 
     @Test
     @Order(4)
-    void should_find_appointments()
-    {
-        List<Appointment> appointments = appointmentProxyService.findAppointments();
-
-        assertEquals(2, appointments.size());
-
-    }
-
-    @Test
-    @Order(5)
     void should_find_appointments_of_attendee_by_day()
     {
         List<Appointment> appointments = appointmentProxyService.findAppointmentsofAttendeeByDay(dfDay.format(appointmentDate), attendeeId);
@@ -130,7 +123,7 @@ public class VerizonApplicationServiceTest
     }
 
     @Test
-    @Order(6)
+    @Order(5)
     void should_find_appointments_by_day()
     {
         List<Appointment> appointments = appointmentProxyService.findAppointmentsByDay(dfDay.format(appointmentDate));
@@ -140,7 +133,7 @@ public class VerizonApplicationServiceTest
     }
 
     @Test
-    @Order(7)
+    @Order(6)
     void should_update_meeting()
     {
 
@@ -158,12 +151,12 @@ public class VerizonApplicationServiceTest
         Meeting updatedMeeting = (Meeting) appointmentProxyService.saveAppointment(meeting);
 
         assertEquals(day, updatedMeeting.getDay());
-        assertEquals(meetingId, updatedMeeting.get_id());
+        assertEquals(meetingId, updatedMeeting.getId());
 
     }
 
     @Test
-    @Order(8)
+    @Order(7)
     void should_find_appointments_by_day_1()
     {
         List<Appointment> appointments = appointmentProxyService.findAppointmentsByDay(dfDay.format(appointmentDate));

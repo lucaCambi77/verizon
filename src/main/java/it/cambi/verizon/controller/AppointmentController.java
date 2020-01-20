@@ -44,7 +44,7 @@ public class AppointmentController implements AppointmentApi
     @GetMapping("/test")
     public String home()
     {
-        return "Hello Meeting!";
+        return "Hello Appointment!";
     }
 
     @Override

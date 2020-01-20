@@ -5,6 +5,7 @@ package it.cambi.verizon.domain;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
@@ -16,12 +17,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreType;
 public class Attendee extends Person
 {
 
-    private ObjectId _id;
+    private @MongoId ObjectId id;
     private boolean enabled;
 
-    public String get_id()
+    public String getId()
     {
-        return null == _id ? null : _id.toString();
+        return null == id ? null : id.toString();
 
     }
 
@@ -78,7 +79,7 @@ public class Attendee extends Person
         {
 
             Attendee attendee = new Attendee();
-            attendee._id = this._id;
+            attendee.id = this._id;
             attendee.setAddress(this.address);
             attendee.setName(this.name);
             attendee.setSurname(this.surname);
@@ -93,7 +94,7 @@ public class Attendee extends Person
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((_id == null) ? 0 : _id.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -107,12 +108,12 @@ public class Attendee extends Person
         if (getClass() != obj.getClass())
             return false;
         Attendee other = (Attendee) obj;
-        if (_id == null)
+        if (id == null)
         {
-            if (other._id != null)
+            if (other.id != null)
                 return false;
         }
-        else if (!_id.equals(other._id))
+        else if (!id.equals(other.id))
             return false;
         return true;
     }

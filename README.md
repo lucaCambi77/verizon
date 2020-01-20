@@ -53,7 +53,6 @@ After the application is running, following api are exposed :
     "country" : "Italy"
   },
   "confirmed" : true,
-  "type" : "MEETING",
   "attendees" : [ ... attendees id ... ],
   "recurrentIntervalDays" : 0,
   "oneOff" : false

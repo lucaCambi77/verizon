@@ -37,7 +37,7 @@ public class ReminderService implements AppointmentService
     public Appointment findByObjectId(String _id)
     {
 
-        return reminderRepository.findOneBy_id(new ObjectId(_id));
+        return reminderRepository.findOneById(new ObjectId(_id));
     }
 
     public List<Appointment> findOfAttendeeByDay(String day, String attendee)
@@ -62,7 +62,7 @@ public class ReminderService implements AppointmentService
 
     public boolean delete(Appointment reminder)
     {
-        log.info("... deleting reminder " + reminder.get_id());
+        log.info("... deleting reminder " + reminder.getId());
 
         reminder.setConfirmed(false);
 

@@ -118,7 +118,7 @@ public class Meeting extends Appointment
             meeting.setConfirmed(this.confirmed);
             meeting.attendees = this.attendees;
             meeting.recurrentIntervalDays = this.recurrentIntervalDays;
-            
+
             return meeting;
         }
     }
