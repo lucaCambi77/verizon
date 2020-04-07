@@ -1,11 +1,12 @@
 /**
- * 
+ *
  */
 package it.cambi.verizon.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +18,17 @@ import it.cambi.verizon.domain.AppointmentType;
  *
  */
 @Service
-public class AppointmentProxyService
-{
-    private @Autowired MeetingService meetingService;
-    private @Autowired ReminderService reminderService;
+@RequiredArgsConstructor
+public class AppointmentProxyService {
 
-    public Appointment findAppointmentById(String id, AppointmentType type)
-    {
+    private final MeetingService meetingService;
+    private final ReminderService reminderService;
+
+    public Appointment findAppointmentById(String id, AppointmentType type) {
         return getService(type).findByObjectId(id);
     }
 
-    public List<Appointment> findAppointments()
-    {
+    public List<Appointment> findAppointments() {
         List<Appointment> appointments = new ArrayList<Appointment>();
         appointments.addAll(meetingService.findAll());
         appointments.addAll(reminderService.findAll());
@@ -36,8 +36,7 @@ public class AppointmentProxyService
         return appointments;
     }
 
-    public List<Appointment> findAppointmentsByDay(String day)
-    {
+    public List<Appointment> findAppointmentsByDay(String day) {
         List<Appointment> appointments = new ArrayList<Appointment>();
         appointments.addAll(meetingService.findByDay(day));
         appointments.addAll(reminderService.findByDay(day));
@@ -45,29 +44,24 @@ public class AppointmentProxyService
         return appointments;
     }
 
-    public List<Appointment> findAppointmentsofAttendeeByDay(String day, String attendee)
-    {
+    public List<Appointment> findAppointmentsofAttendeeByDay(String day, String attendee) {
         List<Appointment> appointments = new ArrayList<Appointment>();
         appointments.addAll(meetingService.findOfAttendeeByDay(day, attendee));
 
         return appointments;
     }
 
-    public Appointment saveAppointment(Appointment appointment)
-    {
+    public Appointment saveAppointment(Appointment appointment) {
         return getService(appointment.getType()).save(appointment);
     }
 
-    public boolean deleteAppointment(Appointment appointment)
-    {
+    public boolean deleteAppointment(Appointment appointment) {
         return getService(appointment.getType()).delete(appointment);
 
     }
 
-    private AppointmentService getService(AppointmentType type)
-    {
-        switch (type)
-        {
+    private AppointmentService getService(AppointmentType type) {
+        switch (type) {
             case MEETING:
                 return meetingService;
 

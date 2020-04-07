@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.verizon.service;
 
@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,46 +24,40 @@ import it.cambi.verizon.mongo.repository.ReminderRepository;
  *
  */
 @Service
-public class ReminderService implements AppointmentService
-{
-    private static final Logger log = LoggerFactory.getLogger(ReminderService.class);
+@RequiredArgsConstructor
+@Slf4j
+public class ReminderService implements AppointmentService {
 
-    private @Autowired ReminderRepository reminderRepository;
+    private final ReminderRepository reminderRepository;
 
-    public List<Appointment> findAll()
-    {
+    public List<Appointment> findAll() {
 
         return new ArrayList<Appointment>(reminderRepository.findAll());
     }
 
-    public Appointment findByObjectId(String _id)
-    {
+    public Appointment findByObjectId(String _id) {
 
         return reminderRepository.findOneById(new ObjectId(_id));
     }
 
-    public List<Appointment> findOfAttendeeByDay(String day, String attendee)
-    {
+    public List<Appointment> findOfAttendeeByDay(String day, String attendee) {
 
         return null;
     }
 
-    public List<Appointment> findByDay(String date)
-    {
+    public List<Appointment> findByDay(String date) {
 
-        return reminderRepository.findAllByDay(date).stream().filter(m -> m.isConfirmed()).collect(Collectors.toList());
+        return new ArrayList<Appointment>(reminderRepository.findAllByDay(date, true));
 
     }
 
-    public Reminder save(Appointment reminder)
-    {
+    public Reminder save(Appointment reminder) {
         log.info("... creating or updating reminder " + reminder.getName());
 
         return reminderRepository.save((Reminder) reminder);
     }
 
-    public boolean delete(Appointment reminder)
-    {
+    public boolean delete(Appointment reminder) {
         log.info("... deleting reminder " + reminder.getId());
 
         reminder.setConfirmed(false);
