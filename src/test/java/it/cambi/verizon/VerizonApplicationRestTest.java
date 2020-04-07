@@ -1,16 +1,10 @@
 /**
- * 
+ *
  */
 package it.cambi.verizon;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import it.cambi.verizon.domain.*;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -28,13 +22,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashSet;
 
-import it.cambi.verizon.domain.Address;
-import it.cambi.verizon.domain.Appointment;
-import it.cambi.verizon.domain.Attendee;
-import it.cambi.verizon.domain.Meeting;
-import it.cambi.verizon.domain.Reminder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author luca

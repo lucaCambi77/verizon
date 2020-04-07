@@ -1,16 +1,8 @@
 package it.cambi.verizon;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-
+import it.cambi.verizon.domain.*;
+import it.cambi.verizon.service.AppointmentProxyService;
+import it.cambi.verizon.service.AttendeeService;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -23,14 +15,16 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import it.cambi.verizon.domain.Address;
-import it.cambi.verizon.domain.Appointment;
-import it.cambi.verizon.domain.AppointmentType;
-import it.cambi.verizon.domain.Attendee;
-import it.cambi.verizon.domain.Meeting;
-import it.cambi.verizon.domain.Reminder;
-import it.cambi.verizon.service.AppointmentProxyService;
-import it.cambi.verizon.service.AttendeeService;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(classes = { VerizonApplication.class, ApplicationConfigurationTest.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
