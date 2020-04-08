@@ -1,13 +1,14 @@
 package it.cambi.verizon;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.cambi.verizon.domain.*;
+import it.cambi.verizon.domain.Appointment;
+import it.cambi.verizon.domain.AppointmentType;
+import it.cambi.verizon.domain.Meeting;
+import it.cambi.verizon.domain.Reminder;
 import it.cambi.verizon.service.AppointmentProxyService;
 import it.cambi.verizon.service.MeetingService;
 import it.cambi.verizon.service.ReminderService;
 import org.bson.types.ObjectId;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

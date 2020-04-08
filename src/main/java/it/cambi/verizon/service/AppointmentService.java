@@ -1,11 +1,11 @@
 /**
- * 
+ *
  */
 package it.cambi.verizon.service;
 
-import java.util.List;
-
 import it.cambi.verizon.domain.Appointment;
+
+import java.util.List;
 
 /**
  * @author luca

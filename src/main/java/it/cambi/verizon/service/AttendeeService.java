@@ -1,25 +1,24 @@
 /**
- * 
+ *
  */
 package it.cambi.verizon.service;
 
-import java.util.List;
-
+import it.cambi.verizon.domain.Attendee;
+import it.cambi.verizon.mongo.repository.AttendeeRepository;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import it.cambi.verizon.domain.Attendee;
-import it.cambi.verizon.mongo.repository.AttendeeRepository;
+import java.util.List;
 
 /**
  * @author luca
  *
  */
 @Service
-public class AttendeeService 
+public class AttendeeService
 {
     private static final Logger log = LoggerFactory.getLogger(AttendeeService.class);
 

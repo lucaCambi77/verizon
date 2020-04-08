@@ -3,14 +3,12 @@
  */
 package it.cambi.verizon.mongo.repository;
 
-import java.util.List;
-
-import it.cambi.verizon.domain.Meeting;
+import it.cambi.verizon.domain.Reminder;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
-
-import it.cambi.verizon.domain.Reminder;
 import org.springframework.data.mongodb.repository.Query;
+
+import java.util.List;
 
 /**
  * @author luca

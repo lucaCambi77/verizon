@@ -1,12 +1,12 @@
 /**
- * 
+ *
  */
 package it.cambi.verizon.api;
 
-import java.util.List;
-
 import it.cambi.verizon.domain.Appointment;
 import it.cambi.verizon.domain.AppointmentType;
+
+import java.util.List;
 
 /**
  * @author luca

@@ -3,15 +3,13 @@
  */
 package it.cambi.verizon.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import it.cambi.verizon.domain.Appointment;
 import it.cambi.verizon.domain.AppointmentType;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author luca

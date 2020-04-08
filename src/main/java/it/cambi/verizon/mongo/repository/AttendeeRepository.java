@@ -1,12 +1,11 @@
 /**
- * 
+ *
  */
 package it.cambi.verizon.mongo.repository;
 
+import it.cambi.verizon.domain.Attendee;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
-
-import it.cambi.verizon.domain.Attendee;
 
 /**
  * @author luca

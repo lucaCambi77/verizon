@@ -1,13 +1,12 @@
 /**
- * 
+ *
  */
 package it.cambi.verizon.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 /**
  * @author luca

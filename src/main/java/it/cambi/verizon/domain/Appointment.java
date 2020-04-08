@@ -1,13 +1,12 @@
 /**
- * 
+ *
  */
 package it.cambi.verizon.domain;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.MongoId;
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
  * @author luca
