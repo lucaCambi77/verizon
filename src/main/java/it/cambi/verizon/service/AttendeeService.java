@@ -5,6 +5,8 @@ package it.cambi.verizon.service;
 
 import it.cambi.verizon.domain.Attendee;
 import it.cambi.verizon.mongo.repository.AttendeeRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,25 +20,22 @@ import java.util.List;
  *
  */
 @Service
-public class AttendeeService
-{
-    private static final Logger log = LoggerFactory.getLogger(AttendeeService.class);
+@RequiredArgsConstructor
+@Slf4j
+public class AttendeeService {
+    
+    private final AttendeeRepository attendeeRepository;
 
-    private @Autowired AttendeeRepository attendeeRepository;
-
-    public List<Attendee> findAll()
-    {
+    public List<Attendee> findAll() {
 
         return attendeeRepository.findAll();
     }
 
-    public Attendee findByObjectId(String _id)
-    {
+    public Attendee findByObjectId(String _id) {
         return attendeeRepository.findOneById(new ObjectId(_id));
     }
 
-    public Attendee save(Attendee attendee)
-    {
+    public Attendee save(Attendee attendee) {
         log.info("... creating new attendee " + attendee.getEmail());
         return attendeeRepository.save(attendee);
     }
