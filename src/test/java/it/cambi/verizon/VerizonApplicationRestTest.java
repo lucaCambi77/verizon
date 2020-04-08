@@ -34,13 +34,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author luca
  *
  */
-@SpringBootTest(classes = { VerizonApplication.class, ApplicationConfigurationTest.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {VerizonApplication.class}, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
-@ActiveProfiles({ "test" })
-public class VerizonApplicationRestTest
-{
-    private @Autowired MongoTemplate mongoTemplate;
+@ActiveProfiles({"test"})
+public class VerizonApplicationRestTest {
+    private @Autowired
+    MongoTemplate mongoTemplate;
 
     @LocalServerPort
     private int port;
@@ -56,8 +56,7 @@ public class VerizonApplicationRestTest
 
     @Test
     @Order(1)
-    public void setUp()
-    {
+    public void setUp() {
 
         mongoTemplate.dropCollection(Meeting.class);
         mongoTemplate.dropCollection(Reminder.class);
@@ -65,8 +64,7 @@ public class VerizonApplicationRestTest
 
     @Test
     @Order(2)
-    public void meetingGreeting()
-    {
+    public void meetingGreeting() {
 
         ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:" + this.port + "/appointment/test", String.class);
         assertEquals(HttpStatus.OK, entity.getStatusCode());
@@ -74,8 +72,7 @@ public class VerizonApplicationRestTest
 
     @Test
     @Order(3)
-    public void attendeeGreeting()
-    {
+    public void attendeeGreeting() {
 
         ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:" + this.port + "/attendee/test", String.class);
         assertEquals(HttpStatus.OK, entity.getStatusCode());
@@ -83,8 +80,7 @@ public class VerizonApplicationRestTest
 
     @Test
     @Order(4)
-    public void should_create_attendee() throws JsonProcessingException
-    {
+    public void should_create_attendee() throws JsonProcessingException {
         Address address = new Address.Builder().withCity("Pistoia").withCountry("Italy").withStreet("Via via").withZipCode("1000").build();
         Attendee attendee = new Attendee.Builder().withName("Luca").withSurname("Cambi").withAddress(address).withEmail("luca.cambi@xxx.com").build();
 
@@ -103,15 +99,13 @@ public class VerizonApplicationRestTest
 
     @Test
     @Order(5)
-    public void should_create_appointement() throws Exception
-    {
+    public void should_create_appointement() throws Exception {
         Address address = new Address.Builder().withCity("Pistoia").withCountry("Italy").withStreet("Via via via").withZipCode("1001").build();
 
         @SuppressWarnings("serial")
         Meeting meeting = new Meeting.Builder().withName("Meeting1").withDay(dfDay.format(meetingDate)).withTime(dfTime.format(meetingDate))
                 .withAddress(address).withConfermation(true)
-                .withAttendees(new HashSet<String>()
-                {
+                .withAttendees(new HashSet<String>() {
                     {
                         add(attendeeId);
                     }
@@ -131,8 +125,7 @@ public class VerizonApplicationRestTest
 
     @Test
     @Order(6)
-    public void should_find_appointments_of_attendee_by_day() throws Exception
-    {
+    public void should_find_appointments_of_attendee_by_day() throws Exception {
 
         ResponseEntity<Appointment[]> entity = restTemplate.getForEntity(
                 "http://localhost:" + this.port + "/appointment/attendeeByday?day=" + dfDay.format(meetingDate) + "&attendee=" + attendeeId,

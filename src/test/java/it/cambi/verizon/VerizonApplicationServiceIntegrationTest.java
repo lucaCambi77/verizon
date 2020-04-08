@@ -1,24 +1,27 @@
 package it.cambi.verizon;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.cambi.verizon.domain.*;
 import it.cambi.verizon.service.AppointmentProxyService;
 import it.cambi.verizon.service.AttendeeService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -26,62 +29,70 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(classes = { VerizonApplication.class, ApplicationConfigurationTest.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {ApplicationConfiguration.class})
 @ExtendWith(SpringExtension.class)
-@TestMethodOrder(OrderAnnotation.class)
-@ActiveProfiles({ "test" })
-public class VerizonApplicationServiceIntegrationTest
-{
+@ActiveProfiles({"test"})
+public class VerizonApplicationServiceIntegrationTest {
 
-    private @Autowired MongoTemplate mongoTemplate;
-    private @Autowired AttendeeService attendeeService;
-    private @Autowired AppointmentProxyService appointmentProxyService;
+    private @Autowired
+    MongoTemplate mongoTemplate;
 
-    private static String attendeeId;
-    private static String meetingId;
+    private @Autowired
+    AttendeeService attendeeService;
 
-    private static Date appointmentDate = new Date();
+    private @Autowired
+    AppointmentProxyService appointmentProxyService;
+
+    private @Autowired
+    ObjectMapper objectMapper;
 
     private DateFormat dfDay = new SimpleDateFormat("yyyy-MM-dd");
     private DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
 
-    @Test
-    @Order(1)
-    void contextLoads()
-    {
-
-        assertNotNull(mongoTemplate);
+    @BeforeEach
+    public void setUp() {
         mongoTemplate.dropCollection(Meeting.class);
         mongoTemplate.dropCollection(Reminder.class);
     }
 
     @Test
-    @Order(2)
-    void should_create_attendee()
-    {
-        Address address = new Address.Builder().withCity("Pistoia").withCountry("Italy").withStreet("Via via").withZipCode("1000").build();
-        Attendee attendee = new Attendee.Builder().withName("Luca").withSurname("Cambi").withAddress(address).withEmail("luca.cambi@xxx.com").build();
-
-        Attendee result = attendeeService.save(attendee);
-
-        assertNotNull(result.getId());
-        attendeeId = result.getId();
+    @Order(1)
+    void contextLoads() {
+        assertNotNull(mongoTemplate);
     }
 
-    @Test
-    @Order(3)
-    void should_create_appointments()
-    {
+    @ParameterizedTest
+    @CsvSource({"src/test/resources/attendee.json"})
+    void should_create_attendee(String attendee) throws IOException {
 
-        Address address = new Address.Builder().withCity("Pistoia").withCountry("Italy").withStreet("Via via via").withZipCode("1001").build();
+        Attendee result = attendeeService.save(objectMapper.readValue(new File(attendee), Attendee.class));
+
+        assertNotNull(result.getId());
+
+    }
+
+    @ParameterizedTest
+    @CsvSource({"src/test/resources/attendee.json"})
+    void should_create_appointments(String attendee) throws IOException {
+        Attendee result = attendeeService.save(objectMapper.readValue(new File(attendee), Attendee.class));
+
+        Date appointmentDate = new Date();
 
         @SuppressWarnings("serial")
-        Meeting meeting = new Meeting.Builder().withName("Meeting1").withDay(dfDay.format(appointmentDate)).withTime(dfTime.format(appointmentDate))
-                .withAddress(address).withConfermation(true)
-                .withAttendees(new HashSet<String>()
-                {
+        Meeting meeting = new Meeting.Builder()
+                .withName("Meeting1")
+                .withDay(dfDay.format(appointmentDate))
+                .withTime(dfTime.format(appointmentDate))
+                .withAddress(new Address.Builder()
+                        .withCity("Pistoia")
+                        .withCountry("Italy")
+                        .withStreet("Via via via")
+                        .withZipCode("1001")
+                        .build())
+                .withConfermation(true)
+                .withAttendees(new HashSet<String>() {
                     {
-                        add(attendeeId);
+                        add(result.getId());
                     }
                 }).build();
 
@@ -90,12 +101,16 @@ public class VerizonApplicationServiceIntegrationTest
         assertNotNull(postedMeeting.getId());
         assertEquals(1, postedMeeting.getAttendees().size());
 
-        meetingId = postedMeeting.getId();
-
         Reminder reminder = new Reminder.Builder().withName("Reminder1").withDay(dfDay.format(appointmentDate))
                 .withTime(dfTime.format(appointmentDate))
                 .withConfermation(true)
-                .withAddress(address).build();
+                .withAddress(new Address.Builder()
+                        .withCity("Pistoia")
+                        .withCountry("Italy")
+                        .withStreet("Via via via")
+                        .withZipCode("1001")
+                        .build())
+                .build();
 
         Reminder postedReminder = (Reminder) appointmentProxyService.saveAppointment(reminder);
 
@@ -106,56 +121,55 @@ public class VerizonApplicationServiceIntegrationTest
         assertEquals(2, appointments.size());
     }
 
-    @Test
-    @Order(4)
-    void should_find_appointments_of_attendee_by_day()
-    {
-        List<Appointment> appointments = appointmentProxyService.findAppointmentsofAttendeeByDay(dfDay.format(appointmentDate), attendeeId);
+    @ParameterizedTest
+    @CsvSource({"src/test/resources/attendee.json,src/test/resources/meeting1.json,src/test/resources/meeting2.json, 2020-04-01"})
+    void should_find_appointments_of_attendee_by_day(String attendee, String meeting1, String meeting2, String date) throws IOException {
 
-        assertEquals(1, appointments.size());
+        Attendee aAttendee = attendeeService.save(objectMapper.readValue(new File(attendee), Attendee.class));
+
+        Meeting aMeeting = objectMapper.readValue(new File(meeting1), Meeting.class);
+        aMeeting.setDay(date);
+        aMeeting.setAttendees(new HashSet<String>() {
+            {
+                add(aAttendee.getId());
+            }
+        });
+        appointmentProxyService.saveAppointment(aMeeting);
+
+        Meeting anotherMeeting = objectMapper.readValue(new File(meeting2), Meeting.class);
+        anotherMeeting.setDay(date);
+
+        appointmentProxyService.saveAppointment(anotherMeeting);
+
+        assertEquals(1, appointmentProxyService.findAppointmentsofAttendeeByDay(date, aAttendee.getId()).size());
+        assertEquals(2, appointmentProxyService.findAppointmentsByDay(date).size());
 
     }
 
-    @Test
-    @Order(5)
-    void should_find_appointments_by_day()
-    {
-        List<Appointment> appointments = appointmentProxyService.findAppointmentsByDay(dfDay.format(appointmentDate));
+    @ParameterizedTest
+    @CsvSource({"src/test/resources/attendee.json,src/test/resources/meeting1.json, 2020-04-01, 2020-04-02"})
+    void should_update_meeting(String attendee, String meeting1, String date, String date2) throws IOException {
 
-        assertEquals(2, appointments.size());
+        Attendee aAttendee = attendeeService.save(objectMapper.readValue(new File(attendee), Attendee.class));
 
-    }
+        Meeting aMeeting = objectMapper.readValue(new File(meeting1), Meeting.class);
+        aMeeting.setDay(date);
+        aMeeting.setAttendees(new HashSet<String>() {
+            {
+                add(aAttendee.getId());
+            }
+        });
 
-    @Test
-    @Order(6)
-    void should_update_meeting()
-    {
+        appointmentProxyService.saveAppointment(aMeeting);
 
-        Meeting meeting = (Meeting) appointmentProxyService.findAppointmentById(meetingId, AppointmentType.MEETING);
-
-        LocalDateTime localDateTime = appointmentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1);
-        Date datePlusOne = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-
-        String day = dfDay.format(datePlusOne);
-        String time = dfTime.format(datePlusOne);
-
-        meeting.setDay(day);
-        meeting.setTime(time);
+        Meeting meeting = (Meeting) appointmentProxyService.findAppointmentById(aMeeting.getId(), AppointmentType.MEETING);
+        meeting.setDay(date2);
 
         Meeting updatedMeeting = (Meeting) appointmentProxyService.saveAppointment(meeting);
 
-        assertEquals(day, updatedMeeting.getDay());
-        assertEquals(meetingId, updatedMeeting.getId());
+        assertEquals(date2, updatedMeeting.getDay());
+        assertEquals(meeting, updatedMeeting);
 
     }
 
-    @Test
-    @Order(7)
-    void should_find_appointments_by_day_1()
-    {
-        List<Appointment> appointments = appointmentProxyService.findAppointmentsByDay(dfDay.format(appointmentDate));
-
-        assertEquals(1, appointments.size());
-
-    }
 }
