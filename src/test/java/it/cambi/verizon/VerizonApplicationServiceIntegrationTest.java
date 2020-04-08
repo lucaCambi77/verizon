@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
 @ActiveProfiles({ "test" })
-public class VerizonApplicationServiceTest
+public class VerizonApplicationServiceIntegrationTest
 {
 
     private @Autowired MongoTemplate mongoTemplate;
