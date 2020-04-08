@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.verizon;
 
@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
  *
  */
 @RunWith(JUnitPlatform.class)
-@SelectClasses( { VerizonApplicationRestTest.class, VerizonApplicationServiceTest.class } )
+@SelectClasses( { VerizonApplicationRestTest.class, VerizonApplicationServiceIntegrationTest.class } )
 public class VerizonApplicationTestSuite
 {
 
