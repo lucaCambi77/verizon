@@ -1,17 +1,17 @@
 {
-  "type" : "MEETING",
-  "id" : null,
-  "name" : "Meeting1",
-  "day" : "2000-01-01",
-  "time" : "00:00:00",
-  "address" : {
-    "street" : "Via ...",
-    "zipCode" : "1001",
-    "city" : "Pistoia",
-    "country" : "Italy"
+  "type": "MEETING",
+  "id": null,
+  "name": "Meeting1",
+  "day": "2020-04-01",
+  "time": "00:00:00",
+  "address": {
+    "street": "Via ...",
+    "zipCode": "1001",
+    "city": "Pistoia",
+    "country": "Italy"
   },
-  "confirmed" : true,
-  "attendees" : [],
-  "recurrentIntervalDays" : 0,
-  "oneOff" : false
+  "confirmed": true,
+  "attendees": [],
+  "recurrentIntervalDays": 0,
+  "oneOff": false
 }

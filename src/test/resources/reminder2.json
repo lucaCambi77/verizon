@@ -1,8 +1,8 @@
 {
-  "type": "MEETING",
+  "type": "REMINDER",
   "id": null,
-  "name": "Meeting1",
-  "day": "20200401",
+  "name": "Reminder2",
+  "day": "2020-05-01",
   "time": "00:00:00",
   "address": {
     "street": "Via ...",
@@ -11,7 +11,5 @@
     "country": "Italy"
   },
   "confirmed": true,
-  "attendees": [],
-  "recurrentIntervalDays": 0,
   "oneOff": false
 }

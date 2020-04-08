@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(JUnitPlatform.class)
 @ExtendWith(MockitoExtension.class)
-public class VerizonApplicationUnitTest {
+public class VerizonApplicationServicesUnitTest {
 
     @InjectMocks
     private AppointmentProxyService appointmentProxyService;
