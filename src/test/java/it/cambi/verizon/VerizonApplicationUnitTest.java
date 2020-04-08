@@ -1,11 +1,6 @@
 package it.cambi.verizon;
 
-import it.cambi.verizon.domain.Address;
-import it.cambi.verizon.domain.Appointment;
-import it.cambi.verizon.domain.Meeting;
-import it.cambi.verizon.domain.Reminder;
-import it.cambi.verizon.mongo.repository.MeetingRepository;
-import it.cambi.verizon.mongo.repository.ReminderRepository;
+import it.cambi.verizon.domain.*;
 import it.cambi.verizon.service.AppointmentProxyService;
 import it.cambi.verizon.service.MeetingService;
 import it.cambi.verizon.service.ReminderService;
@@ -18,8 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +24,13 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class VerizonApplicationUnitTest {
 
+    @InjectMocks
     private AppointmentProxyService appointmentProxyService;
 
+    @Mock
     private MeetingService meetingService;
 
+    @Mock
     private ReminderService reminderService;
 
     private static Meeting meeting = new Meeting.Builder()
@@ -59,55 +55,82 @@ public class VerizonApplicationUnitTest {
             .withConfermation(true)
             .build();
 
-    @Mock
-    MeetingRepository meetingRepository;
-    @Mock
-    ReminderRepository reminderRepository;
-
-
     @BeforeEach
     public void setUp() {
-
-        meetingService = new MeetingService(meetingRepository);
-        reminderService = new ReminderService(reminderRepository);
-
-        appointmentProxyService = new AppointmentProxyService(meetingService, reminderService);
-
-        Mockito.lenient().when(meetingRepository.findAll()).thenReturn(new ArrayList<Meeting>() {{
-            add(meeting);
-        }});
-
-        Mockito.lenient().when(reminderRepository.findAll()).thenReturn(new ArrayList<Reminder>() {{
-            add(reminder);
-        }});
-
-        Mockito.lenient().when(meetingRepository.findAllByDay("20200401", true)).thenReturn(new ArrayList<Meeting>() {{
-            add(meeting);
-        }});
-
-        Mockito.lenient().when(reminderRepository.findAllByDay("20200402", true)).thenReturn(new ArrayList<Reminder>() {{
-            add(reminder);
-        }});
 
     }
 
     @Test
     public void should_findAppointments() {
 
+        when(meetingService.findAll()).thenReturn(new ArrayList<Appointment>() {{
+            add(meeting);
+        }});
+
+        when(reminderService.findAll()).thenReturn(new ArrayList<Appointment>() {{
+            add(reminder);
+        }});
+
         List<Appointment> appointments = appointmentProxyService.findAppointments();
 
         assertEquals(2, appointments.size());
-        verify(meetingRepository, times(1)).findAll();
-        verify(reminderRepository, times(1)).findAll();
+        verify(meetingService, times(1)).findAll();
+        verify(reminderService, times(1)).findAll();
 
+        assertEquals(1, appointments.stream().filter(a -> a.getType() == AppointmentType.MEETING).count());
+        assertEquals(1, appointments.stream().filter(a -> a.getType() == AppointmentType.REMINDER).count());
     }
 
     @Test
     public void should_findAppointmentsByDay() {
+
+        Mockito.lenient().when(meetingService.findByDay("20200401")).thenReturn(new ArrayList<Appointment>() {{
+            add(meeting);
+        }});
+
+        Mockito.lenient().when(reminderService.findByDay("20200402")).thenReturn(new ArrayList<Appointment>() {{
+            add(reminder);
+        }});
+
         assertEquals(1, appointmentProxyService.findAppointmentsByDay("20200401").size());
         assertEquals(1, appointmentProxyService.findAppointmentsByDay("20200402").size());
 
     }
 
+    @Test
+    public void should_save_appointment() {
 
+        Meeting meeting = new Meeting.Builder()
+                .withName("Meeting 2")
+                .withAddress(
+                        new Address.Builder()
+                                .withCity("Milano")
+                                .withStreet("via Genova 12")
+                                .build())
+                .withDay("20200403")
+                .withConfermation(true)
+                .build();
+
+        when(meetingService.save(any(Meeting.class))).thenReturn(meeting);
+
+        assertEquals(meeting.getName(), appointmentProxyService.saveAppointment(meeting).getName());
+        assertEquals(meeting.getDay(), appointmentProxyService.saveAppointment(meeting).getDay());
+
+        Reminder reminder = new Reminder.Builder()
+                .withName("Reminder 2")
+                .withAddress(
+                        new Address.Builder()
+                                .withCity("Milano")
+                                .withStreet("via Genova 12")
+                                .build())
+                .withDay("20200403")
+                .withConfermation(true)
+                .build();
+
+        when(reminderService.save(any(Reminder.class))).thenReturn(reminder);
+
+        assertEquals(reminder.getName(), appointmentProxyService.saveAppointment(reminder).getName());
+        assertEquals(reminder.getDay(), appointmentProxyService.saveAppointment(reminder).getDay());
+
+    }
 }
