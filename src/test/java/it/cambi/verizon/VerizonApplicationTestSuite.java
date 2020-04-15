@@ -12,8 +12,10 @@ import org.junit.runner.RunWith;
  *
  */
 @RunWith(JUnitPlatform.class)
-@SelectClasses( { VerizonApplicationRestTest.class, VerizonApplicationServiceIntegrationTest.class } )
-public class VerizonApplicationTestSuite
-{
+@SelectClasses({VerizonApplicationRestTest.class
+        , VerizonApplicationServiceIntegrationTest.class
+        , VerizonApplicationDaoTest.class
+        , VerizonApplicationServicesUnitTest.class})
+public class VerizonApplicationTestSuite {
 
 }
