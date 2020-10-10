@@ -1,53 +1,21 @@
-/**
- *
- */
+/** */
 package it.cambi.verizon.service;
 
 import it.cambi.verizon.domain.Appointment;
 
 import java.util.List;
 
-/**
- * @author luca
- *
- */
-public interface AppointmentService
-{
+/** @author luca */
+public interface AppointmentService {
+  List<Appointment> findAll();
 
-    /**
-     * @return
-     */
-    List<Appointment> findAll();
+  Appointment findByObjectId(String _id);
 
-    /**
-     * @param _id
-     * @return
-     */
-    Appointment findByObjectId(String _id);
+  List<Appointment> findOfAttendeeByDay(String day, String attendee);
 
-    /**
-     * @param day
-     * @param attendee
-     * @return
-     */
-    List<Appointment> findOfAttendeeByDay(String day, String attendee);
+  List<Appointment> findByDay(String date);
 
-    /**
-     * @param date
-     * @return
-     */
-    List<Appointment> findByDay(String date);
+  Appointment save(Appointment meeting);
 
-    /**
-     * @param meeting
-     * @return
-     */
-    Appointment save(Appointment meeting);
-
-    /**
-     * @param meeting
-     * @return
-     */
-    boolean delete(Appointment meeting);
-
+  boolean delete(Appointment meeting);
 }

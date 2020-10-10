@@ -22,7 +22,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,13 +47,9 @@ public class VerizonApplicationServicesUnitTest {
     @CsvSource({"src/test/resources/meeting1.json,src/test/resources/reminder1.json"})
     public void should_findAppointments(String meeting1, String reminder1) throws IOException {
 
-        when(meetingService.findAll()).thenReturn(new ArrayList<Appointment>() {{
-            add(objectMapper.readValue(new File(meeting1), Meeting.class));
-        }});
+        when(meetingService.findAll()).thenReturn(Arrays.asList(objectMapper.readValue(new File(meeting1), Meeting.class)));
 
-        when(reminderService.findAll()).thenReturn(new ArrayList<Appointment>() {{
-            add(objectMapper.readValue(new File(reminder1), Reminder.class));
-        }});
+        when(reminderService.findAll()).thenReturn(Arrays.asList(objectMapper.readValue(new File(reminder1), Reminder.class)));
 
         List<Appointment> appointments = appointmentProxyService.findAppointments();
 
@@ -71,15 +67,11 @@ public class VerizonApplicationServicesUnitTest {
 
         Meeting meeting = objectMapper.readValue(new File(meeting1), Meeting.class);
 
-        Mockito.lenient().when(meetingService.findByDay(meeting.getDay())).thenReturn(new ArrayList<Appointment>() {{
-            add(meeting);
-        }});
+        Mockito.lenient().when(meetingService.findByDay(meeting.getDay())).thenReturn(Arrays.asList(meeting));
 
         Reminder reminder = objectMapper.readValue(new File(reminder1), Reminder.class);
 
-        Mockito.lenient().when(reminderService.findByDay(reminder.getDay())).thenReturn(new ArrayList<Appointment>() {{
-            add(reminder);
-        }});
+        Mockito.lenient().when(reminderService.findByDay(reminder.getDay())).thenReturn(Arrays.asList(reminder));
 
         assertEquals(1, appointmentProxyService.findAppointmentsByDay(meeting.getDay()).size());
         assertEquals(1, appointmentProxyService.findAppointmentsByDay(reminder.getDay()).size());
@@ -117,7 +109,5 @@ public class VerizonApplicationServicesUnitTest {
         verify(reminderService, times(1)).save(reminder);
 
         assertEquals(reminder, savedReminder);
-
-
     }
 }

@@ -1,47 +1,54 @@
-/**
- *
- */
+/** */
 package it.cambi.verizon;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import de.flapdoodle.embed.mongo.MongodExecutable;
+import de.flapdoodle.embed.mongo.MongodStarter;
+import de.flapdoodle.embed.mongo.config.IMongodConfig;
+import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
+import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
-import it.cambi.verizon.mongo.repository.AttendeeRepository;
+import de.flapdoodle.embed.process.runtime.Network;
+import it.cambi.verizon.mongo.repository.MeetingRepository;
 import it.cambi.verizon.service.MeetingService;
-import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.testcontainers.containers.GenericContainer;
+import org.springframework.util.SocketUtils;
 
-/**
- * @author luca
- *
- */
+/** @author luca */
 @Configuration
-@EnableMongoRepositories(basePackageClasses = {AttendeeRepository.class})
+@EnableMongoRepositories(basePackageClasses = {MeetingRepository.class})
 @ComponentScan(basePackageClasses = {MeetingService.class})
-@Import(EmbeddedMongoAutoConfiguration.class)
 public class ApplicationConfiguration {
-    private static final int MONGO_PORT = 27017;
+  private MongodExecutable mongodExecutable;
+  private MongoTemplate mongoTemplate;
+  private static final String CONNECTION_STRING = "mongodb://%s:%d";
 
-    public GenericContainer<?> mongoContainer = new GenericContainer<>("mongo:" + Version.Main.PRODUCTION.asInDownloadPath())
-            .withExposedPorts(MONGO_PORT);
+  @Bean
+  public MongoTemplate mongoTemplate() throws Exception {
+    String ip = "localhost";
+    int randomPort = SocketUtils.findAvailableTcpPort();
 
-    @Bean
-    @Profile({"test"})
-    public MongoTemplate mongoTemplate() throws Exception {
+    IMongodConfig mongodConfig =
+        new MongodConfigBuilder()
+            .version(Version.Main.PRODUCTION)
+            .net(new Net(ip, randomPort, Network.localhostIsIPv6()))
+            .build();
 
-        mongoContainer.start();
-        MongoClient mongoClient = MongoClients.create("mongodb://" + mongoContainer.getContainerIpAddress() + ":" + mongoContainer.getMappedPort(MONGO_PORT));
+    MongodStarter starter = MongodStarter.getDefaultInstance();
+    mongodExecutable = starter.prepare(mongodConfig);
+    mongodExecutable.start();
+    return
+        new MongoTemplate(
+            MongoClients.create(String.format(CONNECTION_STRING, ip, randomPort)), "appointment");
+  }
 
-        return new MongoTemplate(mongoClient, "appointments");
-    }
-
-    @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
-    }
-
+  @Bean
+  public ObjectMapper objectMapper() {
+    return new ObjectMapper();
+  }
 }

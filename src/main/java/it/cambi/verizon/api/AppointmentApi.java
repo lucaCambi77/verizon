@@ -21,7 +21,7 @@ public interface AppointmentApi
 
     public List<Appointment> findAppointmentsByDay(String day);
 
-    public List<Appointment> findAppointmentsofAttendeeByDay(String day, String attendee);
+    public List<Appointment> findAppointmentsOfAttendeeByDay(String day, String attendee);
 
     public Appointment saveAppointment(Appointment appointment);
 

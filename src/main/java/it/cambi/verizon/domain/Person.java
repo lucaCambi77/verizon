@@ -1,57 +1,47 @@
-/**
- * 
- */
+/** */
 package it.cambi.verizon.domain;
 
-/**
- * @author luca
- *
- */
-public abstract class Person
-{
-    private String name;
-    private String surname;
-    private Address address;
-    private String email;
+import lombok.experimental.SuperBuilder;
 
-    public String getEmail()
-    {
-        return email;
-    }
+/** @author luca */
+@SuperBuilder
+public abstract class Person {
+  private String name;
+  private String surname;
+  private Address address;
+  private String email;
 
-    public void setEmail(String email)
-    {
-        this.email = email;
-    }
+  public Person() {}
 
-    public String getName()
-    {
-        return name;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public String getSurname()
-    {
-        return surname;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setSurname(String surname)
-    {
-        this.surname = surname;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public Address getAddress()
-    {
-        return address;
-    }
+  public String getSurname() {
+    return surname;
+  }
 
-    public void setAddress(Address address)
-    {
-        this.address = address;
-    }
+  public void setSurname(String surname) {
+    this.surname = surname;
+  }
 
+  public Address getAddress() {
+    return address;
+  }
+
+  public void setAddress(Address address) {
+    this.address = address;
+  }
 }
