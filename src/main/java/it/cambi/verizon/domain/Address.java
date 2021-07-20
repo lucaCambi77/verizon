@@ -1,18 +1,22 @@
-/** */
+/**
+ *
+ */
 package it.cambi.verizon.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /** @author luca */
 @Builder
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {
 
-  String street;
-  String zipCode;
-  String city;
-  String country;
+    String street;
+    String zipCode;
+    String city;
+    String country;
 }

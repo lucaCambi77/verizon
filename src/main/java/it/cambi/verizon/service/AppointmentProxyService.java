@@ -42,7 +42,7 @@ public class AppointmentProxyService {
         return appointments;
     }
 
-    public List<Appointment> findAppointmentsofAttendeeByDay(String day, String attendee) {
+    public List<Appointment> findAppointmentsOfAttendeeByDay(String day, String attendee) {
         List<Appointment> appointments = new ArrayList<Appointment>();
         appointments.addAll(meetingService.findOfAttendeeByDay(day, attendee));
 
@@ -59,12 +59,9 @@ public class AppointmentProxyService {
     }
 
     private AppointmentService getService(AppointmentType type) {
-        switch (type) {
-            case MEETING:
-                return meetingService;
-
-            default:
-                return reminderService;
+        if (type == AppointmentType.MEETING) {
+            return meetingService;
         }
+        return reminderService;
     }
 }

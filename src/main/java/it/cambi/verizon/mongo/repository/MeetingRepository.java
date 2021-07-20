@@ -14,8 +14,7 @@ import java.util.List;
  * @author luca
  *
  */
-public interface MeetingRepository extends MongoRepository<Meeting, String>
-{
+public interface MeetingRepository extends MongoRepository<Meeting, String> {
 
     Meeting findOneById(ObjectId id);
 

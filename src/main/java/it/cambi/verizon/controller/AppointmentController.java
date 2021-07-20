@@ -9,7 +9,17 @@ import it.cambi.verizon.service.AppointmentProxyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -28,33 +38,28 @@ public class AppointmentController implements AppointmentApi {
     return "Hello Appointment!";
   }
 
-  @Override
   @GetMapping(value = "/{id}")
   public Appointment findAppointmentById(
       @PathVariable("id") String id, @RequestParam("type") AppointmentType type) {
     return appointmentProxyService.findAppointmentById(id, type);
   }
 
-  @Override
   @GetMapping
   public List<Appointment> findAppointments() {
     return appointmentProxyService.findAppointments();
   }
 
-  @Override
   @GetMapping(value = "/day/{day}")
   public List<Appointment> findAppointmentsByDay(@PathVariable("day") String day) {
     return appointmentProxyService.findAppointmentsByDay(day);
   }
 
-  @Override
   @GetMapping("attendeeByDay")
   public List<Appointment> findAppointmentsOfAttendeeByDay(
       @RequestParam("day") String day, @RequestParam("attendee") String attendee) {
-    return appointmentProxyService.findAppointmentsofAttendeeByDay(day, attendee);
+    return appointmentProxyService.findAppointmentsOfAttendeeByDay(day, attendee);
   }
 
-  @Override
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
@@ -64,17 +69,14 @@ public class AppointmentController implements AppointmentApi {
     return appointmentProxyService.saveAppointment(appointment);
   }
 
-  @Override
   @PutMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @ResponseStatus(HttpStatus.OK)
   public Appointment updateAppointment(@RequestBody Appointment appointment) {
     performArgumentChecks(appointment);
     return appointmentProxyService.saveAppointment(appointment);
   }
 
-  @Override
   @DeleteMapping
   public boolean deleteAppointment(@RequestBody Appointment appointment) {
     return appointmentProxyService.deleteAppointment(appointment);

@@ -12,21 +12,19 @@ import java.util.List;
  * @author luca
  *
  */
-public interface AppointmentApi
-{
+public interface AppointmentApi {
 
-    public Appointment findAppointmentById(String id, AppointmentType type);
+    Appointment findAppointmentById(String id, AppointmentType type);
 
-    public List<Appointment> findAppointments();
+    List<Appointment> findAppointments();
 
-    public List<Appointment> findAppointmentsByDay(String day);
+    List<Appointment> findAppointmentsByDay(String day);
 
-    public List<Appointment> findAppointmentsOfAttendeeByDay(String day, String attendee);
+    List<Appointment> findAppointmentsOfAttendeeByDay(String day, String attendee);
 
-    public Appointment saveAppointment(Appointment appointment);
+    Appointment saveAppointment(Appointment appointment);
 
-    public Appointment updateAppointment(Appointment appointment);
+    Appointment updateAppointment(Appointment appointment);
 
-    public boolean deleteAppointment(Appointment appointment);
-
+    boolean deleteAppointment(Appointment appointment);
 }

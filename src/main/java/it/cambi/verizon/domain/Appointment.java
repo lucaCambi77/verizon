@@ -3,7 +3,10 @@ package it.cambi.verizon.domain;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -14,8 +17,7 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
   @JsonSubTypes.Type(value = Meeting.class, name = "MEETING"),
   @JsonSubTypes.Type(value = Reminder.class, name = "REMINDER")
 })
-@Setter
-@Getter
+@Data
 @EqualsAndHashCode(of = "id")
 @SuperBuilder
 @NoArgsConstructor
