@@ -16,7 +16,7 @@
     <description>Appointments System Application</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>1.11</java.version>
         <test.containers.version>1.13.0</test.containers.version>
     </properties>
 
@@ -81,8 +81,8 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
                         <configuration>
-                            <source>1.8</source>
-                            <target>1.8</target>
+                            <source>11</source>
+                            <target>11</target>
                         </configuration>
                     </plugin>
                     <plugin>
