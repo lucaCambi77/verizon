@@ -43,8 +43,8 @@ public class VerizonApplicationServiceIntegrationTest {
     private @Autowired
     ObjectMapper objectMapper;
 
-    private DateFormat dfDay = new SimpleDateFormat("yyyy-MM-dd");
-    private DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
+    private final DateFormat dfDay = new SimpleDateFormat("yyyy-MM-dd");
+    private final DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
 
     @BeforeEach
     public void setUp() {
