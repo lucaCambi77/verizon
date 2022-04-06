@@ -3,10 +3,10 @@
  */
 package it.cambi.verizon.api;
 
+import java.util.List;
+
 import it.cambi.verizon.domain.Appointment;
 import it.cambi.verizon.domain.AppointmentType;
-
-import java.util.List;
 
 /**
  * @author luca
@@ -26,5 +26,5 @@ public interface AppointmentApi {
 
     Appointment updateAppointment(Appointment appointment);
 
-    boolean deleteAppointment(Appointment appointment);
+    void deleteAppointment(Appointment appointment);
 }

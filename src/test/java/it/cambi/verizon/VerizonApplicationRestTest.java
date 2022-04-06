@@ -3,11 +3,15 @@
  */
 package it.cambi.verizon;
 
-import it.cambi.verizon.domain.Address;
-import it.cambi.verizon.domain.Appointment;
-import it.cambi.verizon.domain.AppointmentType;
-import it.cambi.verizon.domain.Meeting;
-import it.cambi.verizon.domain.Reminder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,14 +26,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import it.cambi.verizon.domain.Address;
+import it.cambi.verizon.domain.Appointment;
+import it.cambi.verizon.domain.AppointmentType;
+import it.cambi.verizon.domain.Meeting;
+import it.cambi.verizon.domain.Reminder;
 
 /** @author luca */
 @SpringBootTest(
@@ -71,7 +72,6 @@ public class VerizonApplicationRestTest {
                                         .street("Via via via")
                                         .zipCode("1001")
                                         .build())
-                        .confirmed(true)
                         .attendees(new HashSet<>(Collections.singletonList("pippo")))
                         .type(AppointmentType.MEETING)
                         .build();

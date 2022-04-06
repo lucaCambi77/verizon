@@ -3,9 +3,9 @@
  */
 package it.cambi.verizon.service;
 
-import it.cambi.verizon.domain.Appointment;
-
 import java.util.List;
+
+import it.cambi.verizon.domain.Appointment;
 
 /** @author luca */
 public interface AppointmentService {
@@ -19,5 +19,5 @@ public interface AppointmentService {
 
     Appointment save(Appointment meeting);
 
-    boolean delete(Appointment meeting);
+    void delete(Appointment meeting);
 }

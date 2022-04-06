@@ -1,25 +1,24 @@
-/**
- *
- */
+/** */
 package it.cambi.verizon.domain;
+
+import java.util.Set;
+
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.Set;
 
 /** @author luca */
 @EqualsAndHashCode(callSuper = true)
 @Document
 @Data
+@NoArgsConstructor
 @SuperBuilder
 public class Meeting extends Appointment {
 
-    private Set<String> attendees;
-    private int recurrentIntervalDays;
-
-    public Meeting() {
-    }
+  Set<String> attendees;
+  String title;
+  String description;
 }

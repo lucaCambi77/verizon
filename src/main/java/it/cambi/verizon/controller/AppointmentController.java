@@ -1,11 +1,10 @@
 /** */
 package it.cambi.verizon.controller;
 
-import com.google.common.base.Strings;
-import it.cambi.verizon.api.AppointmentApi;
-import it.cambi.verizon.domain.Appointment;
-import it.cambi.verizon.domain.AppointmentType;
-import it.cambi.verizon.service.AppointmentProxyService;
+import static com.google.common.base.Preconditions.checkArgument;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,9 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.google.common.base.Strings;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import it.cambi.verizon.api.AppointmentApi;
+import it.cambi.verizon.domain.Appointment;
+import it.cambi.verizon.domain.AppointmentType;
+import it.cambi.verizon.service.AppointmentProxyService;
 
 /** @author luca */
 @CrossOrigin(origins = {"*"})
@@ -78,8 +80,8 @@ public class AppointmentController implements AppointmentApi {
   }
 
   @DeleteMapping
-  public boolean deleteAppointment(@RequestBody Appointment appointment) {
-    return appointmentProxyService.deleteAppointment(appointment);
+  public void deleteAppointment(@RequestBody Appointment appointment) {
+    appointmentProxyService.deleteAppointment(appointment);
   }
 
   private void performArgumentChecks(Appointment appointment) {

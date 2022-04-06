@@ -3,13 +3,14 @@
  */
 package it.cambi.verizon.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import it.cambi.verizon.domain.Appointment;
 import it.cambi.verizon.domain.AppointmentType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author luca
@@ -53,9 +54,8 @@ public class AppointmentProxyService {
         return getService(appointment.getType()).save(appointment);
     }
 
-    public boolean deleteAppointment(Appointment appointment) {
-        return getService(appointment.getType()).delete(appointment);
-
+    public void deleteAppointment(Appointment appointment) {
+        getService(appointment.getType()).delete(appointment);
     }
 
     private AppointmentService getService(AppointmentType type) {

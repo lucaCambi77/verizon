@@ -1,28 +1,20 @@
-/**
- *
- */
+/** */
 package it.cambi.verizon.domain;
 
-import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- * @author luca
- *
- */
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+/** @author luca */
 @Document
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-public class Reminder extends Appointment
-{
-    public boolean isOneOff()
-    {
-        return false;
-    }
+@NoArgsConstructor
+@Data
+public class Reminder extends Appointment {
 
-    public Reminder()
-    {
-        super(AppointmentType.REMINDER);
-    }
+  String reminder;
 }
