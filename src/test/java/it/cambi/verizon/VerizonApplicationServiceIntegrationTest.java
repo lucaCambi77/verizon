@@ -22,8 +22,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import it.cambi.verizon.domain.Address;
 import it.cambi.verizon.domain.Appointment;
 import it.cambi.verizon.domain.AppointmentType;
