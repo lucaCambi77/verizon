@@ -40,8 +40,6 @@ public class VerizonApplicationServicesUnitTest {
 
   @Mock private ReminderService reminderService;
 
-  private ObjectMapper objectMapper = new ObjectMapper();
-
   @Test
   public void should_findAppointments() {
 

@@ -39,8 +39,6 @@ public class VerizonApplicationServiceIntegrationTest {
 
   private @Autowired AppointmentProxyService appointmentProxyService;
 
-  private @Autowired ObjectMapper objectMapper;
-
   private final DateFormat dfDay = new SimpleDateFormat("yyyy-MM-dd");
   private final DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
 
